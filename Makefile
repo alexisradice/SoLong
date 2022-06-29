@@ -37,13 +37,3 @@ fclean:		clean
 re:			fclean all
 
 .PHONY:		all clean fclean re bonus
-
-# typedef struct s_data
-# {
-# 	void	*mlx_ptr;
-# 	void	*win_ptr;
-
-    
-
-
-# }	t_data;
