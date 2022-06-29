@@ -1,23 +1,24 @@
-#include <stdlib.h>
-#include <mlx.h>
+#include "so_long.h"
 
-# define WINDOW_WIDTH 600
-# define WINDOW_HEIGHT 300
+// int	ft_keypress(int keysym, t_data *data)
+// {
+// 	if (keysym == XK_Escape)
+// 		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
 
+// 	printf("Keypress: %d\n", keysym);
+// 	return (0);
+// }
 
-int ft_parsing()
+// int	handle_keyrelease(int keysym, void *data)
+// {
+// 	printf("Keyrelease: %d\n", keysym);
+// 	return (0);
+// }
+
+int	main(void)
 {
-	
-}
+	// t_data	data;
 
-int main(void)
-{
-	void	*mlx_ptr;
-	void	*win_ptr;
+	ft_printf("%d", ft_atoi("10"));
 
-	mlx_ptr = mlx_init();
-	win_ptr = mlx_new_window(mlx_ptr, WINDOW_WIDTH, WINDOW_HEIGHT, "My first window!");
-	mlx_destroy_window(mlx_ptr, win_ptr);
-	mlx_destroy_display(mlx_ptr);
-	free(mlx_ptr);
 }

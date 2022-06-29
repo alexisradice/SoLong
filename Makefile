@@ -1,7 +1,7 @@
 SRCS	=	main.c \
 
 OBJS	=	${SRCS:.c=.o}
-INCL	=	-I./includes -I./libft -I./minilibx-linux
+INCL	=	-I./includes -I./libft/includes -I./minilibx-linux
 
 NAME	=	so_long
 CC		=	gcc
@@ -11,7 +11,7 @@ RM		=	rm -f
 
 LIBFT	=	libft/libft.a
 LIBMLX	=   minilibx-linux/libmlx_Linux.a
-MLXUTILS=	-lmlx -lbsd -lX11 -lXext
+MLXUTILS=	-lm -lbsd -lX11 -lXext
 
 .c.o:
 				${CC} ${CFLAGS} ${INCL} -c $< -o ${<:.c=.o}
@@ -37,3 +37,13 @@ fclean:		clean
 re:			fclean all
 
 .PHONY:		all clean fclean re bonus
+
+# typedef struct s_data
+# {
+# 	void	*mlx_ptr;
+# 	void	*win_ptr;
+
+    
+
+
+# }	t_data;
