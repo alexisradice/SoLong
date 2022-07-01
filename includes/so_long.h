@@ -6,14 +6,18 @@
 
 # include <stdlib.h>
 
-typedef struct s_data
+typedef struct s_map
 {
- 	void	*mlx_ptr;
-    void	*win_ptr;
+	int			**map;
+	int			size_line;
+	int			count_line;
+}	t_map;
 
-    
-
-
-}	t_data;
+typedef struct s_mlx
+{
+	void	*mlx_ptr;
+	void	*window_ptr;
+	t_map	*map;
+}	t_mlx;
 
 #endif

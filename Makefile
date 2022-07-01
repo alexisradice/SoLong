@@ -17,9 +17,8 @@ MLXUTILS=	-lm -lbsd -lX11 -lXext
 				${CC} ${CFLAGS} ${INCL} -c $< -o ${<:.c=.o}
 
 all:		${NAME}
-bonus:		${NAME}
 
-$(NAME):	${OBJS} ${LIBFT} ${LIBMLX}
+$(NAME):	${OBJS} ${LIBFT} ${LIBMLX} 
 				${CC} -o ${NAME} ${OBJS} ${LIBFT} ${LIBMLX} ${MLXUTILS}
 
 $(LIBFT):
@@ -36,4 +35,4 @@ fclean:		clean
 
 re:			fclean all
 
-.PHONY:		all clean fclean re bonus
+.PHONY:		all clean fclean re
