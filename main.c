@@ -1,9 +1,19 @@
 #include "so_long.h"
 
-char	*ft_read_map(int fd, char *staticstr)
+//int ft_verif_map()
+//{
+//	while()
+//	{
+//
+//	}
+//	return (1);
+//}
+
+char	**ft_read_map(int fd, char *staticstr)
 {
 	int		readval;
 	char	*buffer;
+	char 	**map;
 
 	buffer = malloc(sizeof(char) * 1);
 	if (!buffer)
@@ -11,7 +21,7 @@ char	*ft_read_map(int fd, char *staticstr)
 	readval = 1;
 	while (readval != 0)
 	{
-		readval = read(fd, buffer, BUFFER_SIZE);
+		readval = read(fd, buffer, 1);
 		if (readval == -1)
 		{
 			free(buffer);
@@ -19,42 +29,29 @@ char	*ft_read_map(int fd, char *staticstr)
 		}
 		buffer[readval] = '\0';
 		staticstr = ft_strjoin_gnl(staticstr, buffer);
+		map = ft_split(staticstr, '\n');
 	}
 	free(buffer);
-	return (staticstr);
+	return (map);
 }
 
-char	*ft_get_map(int fd)
-{
-	char		*line;
-	static char	*staticstr;
-
-	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (0);
-	staticstr = ft_read(fd, staticstr);
-	if (!staticstr)
-		return (NULL);
-	line = ft_get_line(staticstr);
-	staticstr = ft_new_staticstr(staticstr);
-	return (line);
-}
-
-t_map	*ft_parsing_map(char *file_map)
+t_map	*ft_parsing_map(char *file_map, char *staticstr)
 {
 	t_map	*map;
-	int		**tab;
+	char		**tab;
 	int		fd;
 	int		size_line;
 	int		count_line;
 
 	count_line = 0;
+	size_line = 0;
 	fd = open(file_map, O_RDONLY);
 	if (fd == -1)
 	{
-		perror("error can't open");
+		ft_printf("error can't open the file");
 		return (NULL);
 	}
-	tab = read_file(fd);
+	tab = ft_read_map(fd, staticstr);
 	map = malloc(sizeof(t_map));
 	if (!map)
 		return (NULL);
@@ -63,6 +60,18 @@ t_map	*ft_parsing_map(char *file_map)
 	map->size_line = size_line;
 	close(fd);
 	return (map);
+}
+
+void ft_get_map(char *file_map)
+{
+	static char	*staticstr;
+	t_map	*map;
+
+	map = ft_parsing_map(file_map, staticstr);
+	ft_printf("%s", map->map[1]);
+
+	//line = ft_get_line(staticstr);
+	//staticstr = ft_new_staticstr(staticstr);
 }
 
 int	main(int argc, char **argv)

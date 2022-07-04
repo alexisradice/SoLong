@@ -8,7 +8,7 @@
 
 typedef struct s_map
 {
-	int			**map;
+	char		**map;
 	int			size_line;
 	int			count_line;
 }	t_map;
