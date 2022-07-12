@@ -66,7 +66,7 @@ void	ft_verif_rectangular_map(int x, t_map *map)
 		x++;
 	}
 	map->count_line = x;
-	map->size_line = len_line;
+	map->size_line = len_first_line;
 }
 
 void	ft_verif_map(t_map *map)
@@ -89,7 +89,7 @@ char	**ft_read_map(int fd, char *staticstr)
 	char	*buffer;
 	char 	**map;
 
-	buffer = malloc(sizeof(char) * 1);
+	buffer = malloc(sizeof(char) * 2);
 	if (!buffer)
 		return (NULL);
 	readval = 1;
@@ -103,16 +103,16 @@ char	**ft_read_map(int fd, char *staticstr)
 		}
 		buffer[readval] = '\0';
 		staticstr = ft_strjoin_gnl(staticstr, buffer);
-		map = ft_split(staticstr, '\n');
 	}
+	map = ft_split(staticstr, '\n');
 	free(buffer);
+	free(staticstr);
 	return (map);
 }
 
 t_map	*ft_parsing_map(char *file_map, char *staticstr)
 {
 	t_map	*map;
-	char		**tab;
 	int		fd;
 
 	fd = open(file_map, O_RDONLY);
@@ -121,13 +121,12 @@ t_map	*ft_parsing_map(char *file_map, char *staticstr)
 		ft_printf("Error: Can't Open The File");
 		return (NULL);
 	}
-	tab = ft_read_map(fd, staticstr);
 	map = malloc(sizeof(t_map));
 	if (!map)
 		return (NULL);
 	map->count_line = 0;
 	map->size_line = 0;
-	map->map = tab;
+	map->map = ft_read_map(fd, staticstr);
 	close(fd);
 	return (map);
 }
@@ -136,10 +135,15 @@ void ft_get_map(char *file_map)
 {
 	static char	*staticstr;
 	t_map	*map;
+	int length;
 
+	length = -1;
 	map = ft_parsing_map(file_map, staticstr);
-	// ft_printf("%s", map->map[0]);
 	ft_verif_map(map);
+	while (map->map[++length] != NULL)
+		free(map->map[length]);
+	free(map->map);
+	free(map);
 }
 
 int	main(int argc, char **argv)
