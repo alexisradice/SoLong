@@ -1,39 +1,177 @@
 #include "so_long.h"
 
-void	ft_put_image(t_data_all *data, int height, int width)
+void    ft_error(int err, char *msg)
 {
-	if (data->map[height][width] == '1')
-		mlx_put_image_to_window(data->mlx_ptr,
-			data->window_ptr, data->obstacle, width * 40, height * 40);
-	else if (data->map[height][width] == '0')
-		mlx_put_image_to_window(data->mlx_ptr,
-			data->window_ptr, data->ground, width * 40, height * 40);
-	else if (data->map[height][width] == 'C')
-		mlx_put_image_to_window(data->mlx_ptr,
-			data->window_ptr, data->collectable, width * 40, height * 40);
-	else if (data->map[height][width] == 'P')
-		mlx_put_image_to_window(data->mlx_ptr,
-			data->window_ptr, data->player_top, width * 40, height * 40);
-	else if (data->map[height][width] == 'E')
-		mlx_put_image_to_window(data->mlx_ptr,
-			data->window_ptr, data->exit, width * 40, height * 40);
+    ft_printf("%s\n", msg);
+    exit(err);
 }
 
-void	ft_graphics(t_data_all *data, int height, int width)
+int	ft_close_button()
 {
-	while (height < data->count_line)
+	exit(0);
+}
+
+void	ft_find_player(t_data_all *data)
+{
+	int	x;
+	int y;
+
+	x = 0;
+	y = 0;
+	while (data->map[x])
 	{
-		width = 0;
-		while (data->map[height][width] != '\0')
+		y = 0;
+		while (data->map[x][y])
 		{
-			ft_put_image(data, height, width);
-			width++;
+			if (data->map[x][y] == 'P')
+			{
+				data->player_x = x;
+				data->player_y = y;
+				return ;
+			}
+        	y++;
 		}
-		height++;
+		x++;
 	}
 }
 
-void	load_obstacles(t_data_all *data)
+int	ft_count_letter(char **map, char letter)
+{
+	int	x;
+	int y;
+	int count;
+
+	x = 0;
+	y = 0;
+	count = 0;
+	while (map[x])
+	{
+		y = 0;
+		while (map[x][y])
+		{
+			if (map[x][y] == letter)
+				count++;
+        	y++;
+		}
+		x++;
+	}
+	return (count);
+}
+
+void	ft_move_up(t_data_all *data)
+{
+	ft_find_player(data);
+	if (data->map[data->player_x - 1][data->player_y] == 'E' && ft_count_letter(data->map, 'C') == 0)
+		ft_error(1, "Finish");
+	if (data->map[data->player_x - 1][data->player_y] == '0' || data->map[data->player_x - 1][data->player_y] == 'C')
+	{
+		if (data->map[data->player_x - 1][data->player_y] == 'C')
+			data->count_collectable++;
+		data->map[data->player_x - 1][data->player_y] = 'P';
+		data->map[data->player_x][data->player_y] = '0';
+		ft_display_assets(data);
+	}
+}
+
+void	ft_move_down(t_data_all *data)
+{
+	ft_find_player(data);
+	if (data->map[data->player_x + 1][data->player_y] == 'E' && ft_count_letter(data->map, 'C') == 0)
+		ft_error(1, "Finish");
+	if (data->map[data->player_x + 1][data->player_y] == '0' || data->map[data->player_x + 1][data->player_y] == 'C')
+	{
+		if (data->map[data->player_x + 1][data->player_y] == 'C')
+			data->count_collectable++;
+		data->map[data->player_x + 1][data->player_y] = 'P';
+		data->map[data->player_x][data->player_y] = '0';
+		ft_display_assets(data);
+	}
+}
+
+void	ft_move_left(t_data_all *data)
+{
+	ft_find_player(data);
+	if (data->map[data->player_x][data->player_y - 1] == 'E' && ft_count_letter(data->map, 'C') == 0)
+		ft_error(1, "Finish");
+	if (data->map[data->player_x][data->player_y - 1] == '0' || data->map[data->player_x][data->player_y - 1] == 'C')
+	{
+		if (data->map[data->player_x][data->player_y - 1] == 'C')
+			data->count_collectable++;
+		data->map[data->player_x][data->player_y - 1] = 'P';
+		data->map[data->player_x][data->player_y] = '0';
+		ft_display_assets(data);
+	}
+}
+
+void	ft_move_right(t_data_all *data)
+{
+	ft_find_player(data);
+	if (data->map[data->player_x][data->player_y + 1] == 'E' && ft_count_letter(data->map, 'C') == 0)
+		ft_error(1, "Finish");
+	if (data->map[data->player_x][data->player_y + 1] == '0' || data->map[data->player_x][data->player_y + 1] == 'C')
+	{
+		if (data->map[data->player_x][data->player_y + 1] == 'C')
+			data->count_collectable++;
+		data->map[data->player_x][data->player_y + 1] = 'P';
+		data->map[data->player_x][data->player_y] = '0';
+		ft_display_assets(data);
+	}
+}
+
+int	ft_key_hook(int key, t_data_all *data)
+{
+	if (key == 119)
+		ft_move_up(data);
+	else if (key == 115)
+		ft_move_down(data);
+	else if (key == 97)
+		ft_move_left(data);
+	else if (key == 100)
+		 ft_move_right(data);
+	else if (key == 65307)
+		ft_error(1,"Stop Echap");
+	//ft_printf("Key: %d x: %d y: %d map: %s\n", key, data->player_x, data->player_y, data->map[0]);
+	return (0);
+}
+
+void	ft_place_asset(t_data_all *data, int x, int y)
+{
+	mlx_put_image_to_window(data->mlx_ptr,
+			data->window_ptr, data->ground, y * 40, x * 40);
+	if (data->map[x][y] == '1')
+		mlx_put_image_to_window(data->mlx_ptr,
+			data->window_ptr, data->obstacle, y * 40, x * 40);
+	else if (data->map[x][y] == 'P')
+		mlx_put_image_to_window(data->mlx_ptr,
+			data->window_ptr, data->player_top, y * 40, x * 40);
+	else if (data->map[x][y] == 'C')
+		mlx_put_image_to_window(data->mlx_ptr,
+			data->window_ptr, data->collectable, y * 40, x * 40);
+	else if (data->map[x][y] == 'E')
+		mlx_put_image_to_window(data->mlx_ptr,
+			data->window_ptr, data->exit, y * 40, x * 40);
+}
+
+void	ft_display_assets(t_data_all *data)
+{
+	int x;
+	int y;
+
+	x = 0;
+	y = 0;
+	while (data->map[x])
+	{
+		y = 0;
+		while (data->map[x][y])
+		{
+			ft_place_asset(data, x, y);
+			y++;
+		}
+		x++;
+	}
+}
+
+void	ft_load_obstacles(t_data_all *data)
 {
 	int	img_w;
 	int	img_h;
@@ -42,7 +180,7 @@ void	load_obstacles(t_data_all *data)
 	"./assets/obstacle.xpm", &img_w, &img_h);
 }
 
-void	load_collectables(t_data_all *data)
+void	ft_load_collectables(t_data_all *data)
 {
 	int	img_w;
 	int	img_h;
@@ -53,7 +191,7 @@ void	load_collectables(t_data_all *data)
 	"./assets/flowey.xpm", &img_w, &img_h);
 }
 
-void	load_player(t_data_all *data)
+void	ft_load_player(t_data_all *data)
 {
 	int	img_w;
 	int	img_h;
@@ -62,7 +200,7 @@ void	load_player(t_data_all *data)
 	"./assets/top.xpm", &img_w, &img_h);
 }
 
-void	load_exit(t_data_all *data)
+void	ft_load_exit(t_data_all *data)
 {
 	int	img_w;
 	int	img_h;
@@ -71,23 +209,17 @@ void	load_exit(t_data_all *data)
 	"./assets/plate.xpm", &img_w, &img_h);
 }
 
-void	load_data(t_data_all *data)
+void	ft_load_data(t_data_all *data)
 {
-	int	img_w;
-	int	img_h;
+	int	width;
+	int	height;
 
 	data->ground = mlx_xpm_file_to_image(data->mlx_ptr, \
-	"./assets/ground.xpm", &img_w, &img_h);
-	load_player(data);
-	load_collectables(data);
-	load_exit(data);
-	load_obstacles(data);
-}
-
-void    ft_error(int err, char *msg)
-{
-    ft_printf("%s\n", msg);
-    exit(err);
+	"./assets/ground.xpm", &width, &height);
+	ft_load_player(data);
+	ft_load_collectables(data);
+	ft_load_exit(data);
+	ft_load_obstacles(data);
 }
 
 void	ft_verif_elements_map(int x, int y, char **map, int *tab)
@@ -208,29 +340,21 @@ t_data_all	*ft_parsing_map(char *file_map, char *staticstr)
 	map = malloc(sizeof(t_data_all));
 	if (!map)
 		return (NULL);
-	map->count_line = 0;
-	map->size_line = 0;
 	map->map = ft_read_map(fd, staticstr);
 	close(fd);
 	return (map);
 }
 
-// void ft_get_map(char *file_map)
-// {
-// 	static char	*staticstr;
-// 	t_data_all	*data;
-// 	// int length;
+void ft_free_all(t_data_all	*data)
+{
+	int length;
 
-// 	// length = -1;
-// 	data = ft_parsing_map(file_map, staticstr);
-// 	ft_verif_map(data);
-// 	load_data(data);
-
-// 	// while (data->map[++length] != NULL)
-// 	// 	free(data->map[length]);
-// 	// free(data->map);
-// 	// free(data);
-// }
+	length = -1;
+	while (data->map[++length] != NULL)
+		free(data->map[length]);
+	free(data->map);
+	free(data);
+}
 
 int	main(int argc, char **argv)
 {
@@ -243,8 +367,11 @@ int	main(int argc, char **argv)
 	data->mlx_ptr = mlx_init();
 	data->window_ptr = mlx_new_window(data->mlx_ptr, (data->size_line * 50 - 49),
 			(data->count_line * 50), "so_long");
-	load_data(data);
-	ft_graphics(data, 0, 0);
+	ft_load_data(data);
+	ft_display_assets(data);
+	mlx_key_hook(data->window_ptr, ft_key_hook, data);
+	mlx_hook(data->window_ptr, 17, (1L << 17), ft_close_button, 0);
 	mlx_loop(data->mlx_ptr);
+	ft_free_all(data);
 	return(0);
 }
