@@ -6,7 +6,7 @@
 /*   By: aradice <aradice@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 00:05:49 by aradice           #+#    #+#             */
-/*   Updated: 2022/07/19 06:31:16 by aradice          ###   ########.fr       */
+/*   Updated: 2022/07/19 19:18:08 by aradice          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,13 @@ void	ft_init_data(t_data_all *data)
 	data->player_position = 'N';
 	data->exit_ok = 0;
 	data->count_collectable = 0;
+	data->count_player_moves = 0;
+	data->exit_ok = 0;
+	data->size_line = 0;
+	data->count_line = 0;
 	data->player_x = 0;
 	data->player_y = 0;
-	data->count_moves_player = 0;
-	data->exit_ok = 0;
 	data->nb_collectible = 0;
-	data->size_asset = 0;
-	data->window_width = 0;
-	data->window_height = 0;
 }
 
 void	ft_load_data(t_data_all *data)

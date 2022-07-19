@@ -6,7 +6,7 @@
 /*   By: aradice <aradice@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 23:59:39 by aradice           #+#    #+#             */
-/*   Updated: 2022/07/19 04:25:28 by aradice          ###   ########.fr       */
+/*   Updated: 2022/07/19 18:34:05 by aradice          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,17 +40,19 @@ char	**ft_read_map(int fd, char *mapstr, t_data_all *data)
 	return (map);
 }
 
-t_data_all	*ft_parsing_map(char *file_map, char *mapstr)
+t_data_all	*ft_parsing_map(char *file_map)
 {
 	t_data_all	*data;
 	int			fd;
+	char		*mapstr;
 
 	fd = open(file_map, O_RDONLY);
 	if (fd == -1)
 	{
-		ft_printf("Error: Can't open the file");
-		return (NULL);
+		ft_printf("Error\nCan't open the file");
+		exit(1);
 	}
+	mapstr = ft_strdup("");
 	data = malloc(sizeof(t_data_all));
 	if (!data)
 		return (NULL);

@@ -6,13 +6,13 @@
 /*   By: aradice <aradice@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 00:04:07 by aradice           #+#    #+#             */
-/*   Updated: 2022/07/19 05:11:26 by aradice          ###   ########.fr       */
+/*   Updated: 2022/07/19 19:35:55 by aradice          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-int	ft_close_game(t_data_all *data, int id, char *message)
+int	ft_exit_game(t_data_all *data, int id, char *message)
 {
 	if (id == 1 || id == 2)
 		ft_printf("%s\n", message);
@@ -22,7 +22,7 @@ int	ft_close_game(t_data_all *data, int id, char *message)
 		ft_free_all_before_display(data);
 	else
 	{
-		ft_printf("Exit: The cross at the top of the window has been pressed");
+		ft_printf("Exit\nThe cross at the top of the window has been pressed");
 		ft_free_all(data);
 	}	
 	exit(id);

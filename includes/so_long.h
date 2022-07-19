@@ -6,7 +6,7 @@
 /*   By: aradice <aradice@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 00:09:30 by aradice           #+#    #+#             */
-/*   Updated: 2022/07/19 05:22:57 by aradice          ###   ########.fr       */
+/*   Updated: 2022/07/19 19:38:29 by aradice          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 
 # include "libft.h"
 # include "mlx.h"
-
-# include <stdlib.h>
 
 typedef struct s_data_all
 {
@@ -27,10 +25,6 @@ typedef struct s_data_all
 
 	void		*mlx_ptr;
 	void		*window_ptr;
-	int			window_width;
-	int			window_height;
-
-	int			size_asset;
 
 	void		*player_top;
 	void		*player_back;
@@ -46,13 +40,13 @@ typedef struct s_data_all
 	int			player_y;
 	char		player_position;
 	int			count_collectable;
-	int			count_moves_player;
+	int			count_player_moves;
 	int			exit_ok;
 	int			nb_collectible;
 }	t_data_all;
 
-t_data_all	*ft_parsing_map(char *file_map, char *staticstr);
-char		**ft_read_map(int fd, char *staticstr, t_data_all *data);
+t_data_all	*ft_parsing_map(char *file_map);
+char		**ft_read_map(int fd, char *mapstr, t_data_all *data);
 void		ft_verif_map(t_data_all *map);
 void		ft_verif_rectangular_map(int x, t_data_all *map);
 void		ft_verif_walls_map(int x, int y, t_data_all *map);
@@ -68,18 +62,17 @@ void		ft_display_assets(t_data_all *data);
 void		ft_place_assets(t_data_all *data, int x, int y);
 void		ft_place_assets_player(t_data_all *data, int x, int y);
 int			ft_key_hook(int key, t_data_all *data);
-void		ft_move_right(t_data_all *data);
-void		ft_move_left(t_data_all *data);
-void		ft_move_down(t_data_all *data);
 void		ft_move_up(t_data_all *data);
+void		ft_move_down(t_data_all *data);
+void		ft_move_left(t_data_all *data);
+void		ft_move_right(t_data_all *data);
 int			ft_count_letter(char **map, char letter);
 void		ft_find_player(t_data_all *data);
+void		ft_init_data(t_data_all *data);
 void		ft_free_all(t_data_all	*data);
 void		ft_free_all_before_display(t_data_all *data);
-void		ft_init_data(t_data_all *data);
-void		ft_free_all(t_data_all *data);
 void		ft_free_assets(t_data_all *data);
 void		ft_free_map(t_data_all	*data);
-int			ft_close_game(t_data_all *data, int err, char *msg);
+int			ft_exit_game(t_data_all *data, int err, char *msg);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: aradice <aradice@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 00:03:03 by aradice           #+#    #+#             */
-/*   Updated: 2022/07/19 00:08:09 by aradice          ###   ########.fr       */
+/*   Updated: 2022/07/19 19:39:11 by aradice          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	ft_move_up(t_data_all *data)
 	ft_find_player(data);
 	if (data->map[data->player_x - 1][data->player_y] == 'E'
 			&& ft_count_letter(data->map, 'C') == 0)
-		ft_close_game(data, 1, "You win!");
+		ft_exit_game(data, 1, "You win!");
 	if (data->map[data->player_x - 1][data->player_y] == '0'
 			|| data->map[data->player_x - 1][data->player_y] == 'C')
 	{
@@ -30,6 +30,8 @@ void	ft_move_up(t_data_all *data)
 		data->map[data->player_x - 1][data->player_y] = 'P';
 		data->map[data->player_x][data->player_y] = '0';
 		data->player_position = 'B';
+		data->count_player_moves++;
+		ft_printf("Total Movements: %d\n", data->count_player_moves);
 		ft_display_assets(data);
 	}
 }
@@ -39,7 +41,7 @@ void	ft_move_down(t_data_all *data)
 	ft_find_player(data);
 	if (data->map[data->player_x + 1][data->player_y] == 'E'
 			&& ft_count_letter(data->map, 'C') == 0)
-		ft_close_game(data, 1, "You win!");
+		ft_exit_game(data, 1, "You win!");
 	if (data->map[data->player_x + 1][data->player_y] == '0'
 			|| data->map[data->player_x + 1][data->player_y] == 'C')
 	{
@@ -52,6 +54,8 @@ void	ft_move_down(t_data_all *data)
 		data->map[data->player_x + 1][data->player_y] = 'P';
 		data->map[data->player_x][data->player_y] = '0';
 		data->player_position = 'U';
+		data->count_player_moves++;
+		ft_printf("Total Movements: %d\n", data->count_player_moves);
 		ft_display_assets(data);
 	}
 }
@@ -61,7 +65,7 @@ void	ft_move_left(t_data_all *data)
 	ft_find_player(data);
 	if (data->map[data->player_x][data->player_y - 1] == 'E'
 			&& ft_count_letter(data->map, 'C') == 0)
-		ft_close_game(data, 1, "You win!");
+		ft_exit_game(data, 1, "You win!");
 	if (data->map[data->player_x][data->player_y - 1] == '0'
 			|| data->map[data->player_x][data->player_y - 1] == 'C')
 	{
@@ -74,6 +78,8 @@ void	ft_move_left(t_data_all *data)
 		data->map[data->player_x][data->player_y - 1] = 'P';
 		data->map[data->player_x][data->player_y] = '0';
 		data->player_position = 'L';
+		data->count_player_moves++;
+		ft_printf("Total Movements: %d\n", data->count_player_moves);
 		ft_display_assets(data);
 	}
 }
@@ -83,7 +89,7 @@ void	ft_move_right(t_data_all *data)
 	ft_find_player(data);
 	if (data->map[data->player_x][data->player_y + 1] == 'E'
 			&& ft_count_letter(data->map, 'C') == 0)
-		ft_close_game(data, 1, "You win!");
+		ft_exit_game(data, 1, "You win!");
 	if (data->map[data->player_x][data->player_y + 1] == '0'
 			|| data->map[data->player_x][data->player_y + 1] == 'C')
 	{
@@ -96,6 +102,8 @@ void	ft_move_right(t_data_all *data)
 		data->map[data->player_x][data->player_y + 1] = 'P';
 		data->map[data->player_x][data->player_y] = '0';
 		data->player_position = 'R';
+		data->count_player_moves++;
+		ft_printf("Total Movements: %d\n", data->count_player_moves);
 		ft_display_assets(data);
 	}
 }
@@ -111,6 +119,6 @@ int	ft_key_hook(int key, t_data_all *data)
 	else if (key == 100 || key == 65363)
 		ft_move_right(data);
 	else if (key == 65307)
-		ft_close_game(data, 1, "Exit: The ESC key has been pressed");
+		ft_exit_game(data, 1, "Exit\nThe ESC key has been pressed");
 	return (0);
 }
