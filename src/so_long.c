@@ -6,7 +6,7 @@
 /*   By: aradice <aradice@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 00:00:12 by aradice           #+#    #+#             */
-/*   Updated: 2022/07/19 01:44:35 by aradice          ###   ########.fr       */
+/*   Updated: 2022/07/19 06:39:32 by aradice          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	main(int argc, char **argv)
 {
-	static char	*staticstr;
+	char		*staticstr;
 	t_data_all	*data;
 
 	if (argc != 2)
@@ -23,6 +23,7 @@ int	main(int argc, char **argv)
 		exit(1);
 	}
 	ft_verif_filename(argv[1]);
+	staticstr = ft_strdup("");
 	data = ft_parsing_map(argv[1], staticstr);
 	ft_init_data(data);
 	ft_verif_map(data);

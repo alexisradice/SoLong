@@ -6,13 +6,13 @@
 /*   By: aradice <aradice@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 23:59:39 by aradice           #+#    #+#             */
-/*   Updated: 2022/07/19 00:30:58 by aradice          ###   ########.fr       */
+/*   Updated: 2022/07/19 04:25:28 by aradice          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-char	**ft_read_map(int fd, char *staticstr)
+char	**ft_read_map(int fd, char *mapstr, t_data_all *data)
 {
 	int		readval;
 	char	*buffer;
@@ -31,17 +31,18 @@ char	**ft_read_map(int fd, char *staticstr)
 			return (NULL);
 		}
 		buffer[readval] = '\0';
-		staticstr = ft_strjoin_gnl(staticstr, buffer);
+		mapstr = ft_strjoin_gnl(mapstr, buffer);
 	}
-	map = ft_split(staticstr, '\n');
+	map = ft_split(mapstr, '\n');
+	data->mapstr = ft_strdup(mapstr);
 	free(buffer);
-	free(staticstr);
+	free(mapstr);
 	return (map);
 }
 
-t_data_all	*ft_parsing_map(char *file_map, char *staticstr)
+t_data_all	*ft_parsing_map(char *file_map, char *mapstr)
 {
-	t_data_all	*map;
+	t_data_all	*data;
 	int			fd;
 
 	fd = open(file_map, O_RDONLY);
@@ -50,10 +51,10 @@ t_data_all	*ft_parsing_map(char *file_map, char *staticstr)
 		ft_printf("Error: Can't open the file");
 		return (NULL);
 	}
-	map = malloc(sizeof(t_data_all));
-	if (!map)
+	data = malloc(sizeof(t_data_all));
+	if (!data)
 		return (NULL);
-	map->map = ft_read_map(fd, staticstr);
+	data->map = ft_read_map(fd, mapstr, data);
 	close(fd);
-	return (map);
+	return (data);
 }

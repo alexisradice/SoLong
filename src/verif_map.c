@@ -6,7 +6,7 @@
 /*   By: aradice <aradice@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 00:01:11 by aradice           #+#    #+#             */
-/*   Updated: 2022/07/19 02:26:03 by aradice          ###   ########.fr       */
+/*   Updated: 2022/07/19 06:43:19 by aradice          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	ft_verif_elements_map(int x, int y, t_data_all *data, int *tab)
 		x++;
 	}
 	if (tab[0] == 0 || tab[1] == 0 || tab[2] == 0)
-		ft_close_game(data, 1, "Error: Not enough mandatory elements");
+		ft_close_game(data, 2, "Error: Not enough mandatory elements");
 }
 
 void	ft_verif_walls_map(int x, int y, t_data_all *data)
@@ -45,13 +45,15 @@ void	ft_verif_walls_map(int x, int y, t_data_all *data)
 			if (x == 0 || x == data->count_line - 1)
 			{
 				if (data->map[x][y] != '1')
-					ft_close_game(data, 2, "Map must be surrounded by walls");
+					ft_close_game(data, 2,
+						"Error: Map must be surrounded by walls");
 			}
 			else
 			{
 				if (data->map[x][0] != '1'
 						|| data->map[x][data->size_line - 1] != '1')
-					ft_close_game(data, 2, "Map must be surrounded by walls");
+					ft_close_game(data, 2,
+						"Error: Map must be surrounded by walls");
 			}
 			y++;
 		}
@@ -69,7 +71,7 @@ void	ft_verif_rectangular_map(int x, t_data_all *data)
 	{
 		len_line = ft_strlen(data->map[x]);
 		if (len_line != len_first_line)
-			ft_close_game(data, 1, "Error: The map is not rectangular");
+			ft_close_game(data, 2, "Error: The map is not rectangular");
 		x++;
 	}
 	data->count_line = x;
@@ -88,6 +90,11 @@ void	ft_verif_map(t_data_all *data)
 	ft_verif_elements_map(x, y, data, tab);
 	ft_verif_rectangular_map(x, data);
 	ft_verif_walls_map(x, y, data);
+	if (ft_strnstr(data->mapstr, "\n\n", ft_strlen(data->mapstr))
+		|| data->mapstr[ft_strlen(data->mapstr) - 1] == '\n')
+		ft_close_game(data, 2, "Error: There is an empty line");
+	if (ft_count_letter(data->map, 'P') > 1)
+		ft_close_game(data, 2, "Error: There is more than 1 player");
 }
 
 void	ft_verif_filename(char *filename)
@@ -100,9 +107,4 @@ void	ft_verif_filename(char *filename)
 		ft_printf("Error: The extension is not ok");
 		exit(1);
 	}
-	// if (!ft_strnstr(filename + filename_len - 4, ".ber", filename_len))
-	// {
-	// 	ft_printf("Error: The extension is not okl");
-	// 	exit(1);
-	// }
 }
