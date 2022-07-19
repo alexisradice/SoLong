@@ -1,4 +1,11 @@
-SRCS	=	main.c \
+SRCS	=	src/display_assets.c \
+			src/free_all.c \
+			src/load_assets.c \
+			src/map_parsing.c \
+			src/movements.c \
+			src/so_long.c \
+			src/utils.c \
+			src/verif_map.c \
 
 OBJS	=	${SRCS:.c=.o}
 INCL	=	-I./includes -I./libft/includes -I./minilibx-linux
