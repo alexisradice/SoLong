@@ -6,7 +6,7 @@
 /*   By: aradice <aradice@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 00:09:30 by aradice           #+#    #+#             */
-/*   Updated: 2022/07/20 05:11:09 by aradice          ###   ########.fr       */
+/*   Updated: 2022/07/20 06:02:06 by aradice          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ typedef struct s_data_all
 
 t_data_all	*ft_parsing_map(char *file_map);
 char		**ft_read_map(int fd, char *mapstr, t_data_all *data);
+void		ft_read_error(t_data_all *data, char *mapstr, char *buffer);
 void		ft_verif_map(t_data_all *map);
 void		ft_verif_rectangular_map(int x, t_data_all *map);
 void		ft_verif_walls_map(int x, int y, t_data_all *map);

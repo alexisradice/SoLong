@@ -6,7 +6,7 @@
 /*   By: aradice <aradice@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 23:59:39 by aradice           #+#    #+#             */
-/*   Updated: 2022/07/19 18:34:05 by aradice          ###   ########.fr       */
+/*   Updated: 2022/07/20 06:05:08 by aradice          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,7 @@ char	**ft_read_map(int fd, char *mapstr, t_data_all *data)
 	{
 		readval = read(fd, buffer, 1);
 		if (readval == -1)
-		{
-			free(buffer);
-			return (NULL);
-		}
+			ft_read_error(data, mapstr, buffer);
 		buffer[readval] = '\0';
 		mapstr = ft_strjoin_gnl(mapstr, buffer);
 	}
@@ -59,4 +56,13 @@ t_data_all	*ft_parsing_map(char *file_map)
 	data->map = ft_read_map(fd, mapstr, data);
 	close(fd);
 	return (data);
+}
+
+void	ft_read_error(t_data_all *data, char *mapstr, char *buffer)
+{
+	free(buffer);
+	free(mapstr);
+	free(data);
+	ft_printf("Error\nCan't read the file");
+	exit(1);
 }
