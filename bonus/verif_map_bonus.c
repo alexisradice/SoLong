@@ -6,7 +6,7 @@
 /*   By: aradice <aradice@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 00:01:11 by aradice           #+#    #+#             */
-/*   Updated: 2022/07/20 03:13:20 by aradice          ###   ########.fr       */
+/*   Updated: 2022/07/21 06:14:56 by aradice          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,12 @@ void	ft_verif_filename(char *filename)
 
 	filename_len = ft_strlen(filename);
 	if ((ft_strncmp(filename + filename_len - 4, ".ber", filename_len)) != 0)
+	{
+		ft_printf("Error\nThe extension is not ok");
+		exit(1);
+	}
+	else if (ft_strncmp(filename, "maps/.ber", filename_len) == 0
+		|| ft_strncmp(filename, "./maps/.ber", filename_len) == 0)
 	{
 		ft_printf("Error\nThe extension is not ok");
 		exit(1);

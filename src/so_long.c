@@ -6,7 +6,7 @@
 /*   By: aradice <aradice@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 00:00:12 by aradice           #+#    #+#             */
-/*   Updated: 2022/07/19 19:39:11 by aradice          ###   ########.fr       */
+/*   Updated: 2022/07/21 04:38:38 by aradice          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ int	main(int argc, char **argv)
 	ft_init_data(data);
 	ft_verif_map(data);
 	data->mlx_ptr = mlx_init();
+	if (!data->mlx_ptr)
+		ft_exit_game(data, 2, "Error\nMLX Problem");
 	data->window_ptr = mlx_new_window(data->mlx_ptr, (data->size_line * 60),
 			(data->count_line * 60), "so_long");
 	data->nb_collectible = ft_count_letter(data->map, 'C');

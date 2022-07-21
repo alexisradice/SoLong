@@ -6,7 +6,7 @@
 /*   By: aradice <aradice@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 23:59:39 by aradice           #+#    #+#             */
-/*   Updated: 2022/07/20 06:03:16 by aradice          ###   ########.fr       */
+/*   Updated: 2022/07/21 06:32:16 by aradice          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,10 @@ char	**ft_read_map(int fd, char *mapstr, t_data_all *data)
 
 	buffer = malloc(sizeof(char) * 2);
 	if (!buffer)
+	{
+		free(buffer);
 		return (NULL);
+	}
 	readval = 1;
 	while (readval != 0)
 	{
@@ -28,7 +31,7 @@ char	**ft_read_map(int fd, char *mapstr, t_data_all *data)
 		if (readval == -1)
 			ft_read_error(data, mapstr, buffer);
 		buffer[readval] = '\0';
-		mapstr = ft_strjoin_gnl(mapstr, buffer);
+		mapstr = ft_strjoin_modif(mapstr, buffer);
 	}
 	map = ft_split(mapstr, '\n');
 	data->mapstr = ft_strdup(mapstr);
@@ -52,8 +55,15 @@ t_data_all	*ft_parsing_map(char *file_map)
 	mapstr = ft_strdup("");
 	data = malloc(sizeof(t_data_all));
 	if (!data)
-		return (NULL);
+	{
+		free(mapstr);
+		free(data);
+		ft_printf("Error\nMalloc Error");
+		exit(1);
+	}
 	data->map = ft_read_map(fd, mapstr, data);
+	if (!data->map)
+		ft_malloc_error(data);
 	close(fd);
 	return (data);
 }
@@ -64,5 +74,14 @@ void	ft_read_error(t_data_all *data, char *mapstr, char *buffer)
 	free(mapstr);
 	free(data);
 	ft_printf("Error\nCan't read the file");
+	exit(1);
+}
+
+void	ft_malloc_error(t_data_all *data)
+{
+	free(data->mapstr);
+	free(data->map);
+	free(data);
+	ft_printf("Error\nMalloc Error");
 	exit(1);
 }

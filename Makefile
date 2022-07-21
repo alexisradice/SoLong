@@ -5,6 +5,7 @@ SRCS	=	src/display_assets.c \
 			src/movements.c \
 			src/so_long.c \
 			src/utils.c \
+			src/utils_2.c \
 			src/verif_map.c \
 
 BONUS	=	bonus/display_assets_bonus.c \
@@ -14,6 +15,7 @@ BONUS	=	bonus/display_assets_bonus.c \
 			bonus/movements_bonus.c \
 			bonus/so_long_bonus.c \
 			bonus/utils_bonus.c \
+			bonus/utils_2_bonus.c \
 			bonus/verif_map_bonus.c \
 			bonus/animation_bonus.c \
 
@@ -30,6 +32,7 @@ RM		=	rm -f
 
 LIBFT_PATH = libft/
 LIBFT	=	libft/libft.a
+LIBMLX_PATH	=   minilibx-linux/
 LIBMLX	=   minilibx-linux/libmlx_Linux.a
 MLXUTILS=	-lm -lbsd -lX11 -lXext
 
@@ -41,10 +44,10 @@ all:			${NAME}
 bonus:			$(NAME_BONUS)
 
 $(NAME):		${OBJS} ${LIBFT} ${LIBMLX} 
-					${CC} -o ${NAME} ${OBJS} ${LIBFT} ${LIBMLX} ${MLXUTILS}
+					${CC} ${CFLAGS} -o ${NAME} ${OBJS} ${LIBFT} ${LIBMLX} ${MLXUTILS}
 
 $(NAME_BONUS):	${OBJS_BONUS} ${LIBFT} ${LIBMLX} 
-					${CC} -o ${NAME_BONUS} ${OBJS_BONUS} ${LIBFT} ${LIBMLX} ${MLXUTILS}
+					${CC} ${CFLAGS} -o ${NAME_BONUS} ${OBJS_BONUS} ${LIBFT} ${LIBMLX} ${MLXUTILS}
 
 $(LIBFT):
 					$(MAKE) -C libft all
@@ -60,10 +63,12 @@ clean_bonus:
 
 fclean:			clean
 					$(MAKE) fclean -C ${LIBFT_PATH}
+					$(MAKE) clean -C ${LIBMLX_PATH}
 					${RM} ${NAME}
 
 fclean_bonus:	clean_bonus
 					$(MAKE) fclean -C ${LIBFT_PATH}
+					$(MAKE) clean -C ${LIBMLX_PATH}
 					${RM} ${NAME_BONUS}
 
 re:				fclean all

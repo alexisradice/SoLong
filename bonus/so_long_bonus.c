@@ -6,11 +6,26 @@
 /*   By: aradice <aradice@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 00:00:12 by aradice           #+#    #+#             */
-/*   Updated: 2022/07/20 05:12:18 by aradice          ###   ########.fr       */
+/*   Updated: 2022/07/21 05:08:17 by aradice          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long_bonus.h"
+
+void	ft_init_data(t_data_all *data)
+{
+	data->player_position = 'N';
+	data->exit_ok = 0;
+	data->count_collectable = 0;
+	data->count_player_moves = 0;
+	data->exit_ok = 0;
+	data->size_line = 0;
+	data->count_line = 0;
+	data->player_x = 0;
+	data->player_y = 0;
+	data->nb_collectible = 0;
+	data->frame_anim = 0;
+}
 
 int	main(int argc, char **argv)
 {
@@ -26,6 +41,8 @@ int	main(int argc, char **argv)
 	ft_init_data(data);
 	ft_verif_map(data);
 	data->mlx_ptr = mlx_init();
+	if (!data->mlx_ptr)
+		ft_exit_game(data, 2, "Error\nMLX Problem");
 	data->window_ptr = mlx_new_window(data->mlx_ptr, (data->size_line * 60),
 			(data->count_line * 60), "so_long");
 	data->nb_collectible = ft_count_letter(data->map, 'C');
